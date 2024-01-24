@@ -27,22 +27,28 @@ client.on('messageCreate', message => {
 });
 
 client.on('interactionCreate', async (interaction) => {
-    if(interaction.isCommand()){
-        if(interaction.commandName === "ping"){
-            interaction.reply("pong")
-        }
-        if(interaction.commandName === "assign"){
-            console.log(data[interaction.options.data[0]['value']].split(","))
-            if(interaction.options.data[0]['name'] === "identity" && data[interaction.options.data[0]['value']]){
-                var role = interaction.guild.roles.cache.filter(role => data[interaction.options.data[0]['value']].split(",").includes(role.name));
-                interaction.member.roles.add(role)
-                interaction.reply(`${interaction.options.data[0]['value']} ${data[interaction.options.data[0]['value']]} were assigned`)
-            }else{
-                interaction.reply("Error Occured or Identity not found")
+    try{
+        if(interaction.isCommand()){
+            if(interaction.commandName === "ping"){
+                interaction.reply("pong")
             }
-            
+            if(interaction.commandName === "assign"){
+                console.log(data[interaction.options.data[0]['value']].split(","))
+                if(interaction.options.data[0]['name'] === "identity" && data[interaction.options.data[0]['value']]){
+                    var role = interaction.guild.roles.cache.filter(role => data[interaction.options.data[0]['value']].split(",").includes(role.name));
+                    interaction.member.roles.add(role)
+                    interaction.reply(`${interaction.options.data[0]['value']} ${data[interaction.options.data[0]['value']]} were assigned`)
+                }else{
+                    interaction.reply("Error Occured or Identity not found")
+                }
+                
+            }
         }
     }
+    catch(err){
+        interaction.reply("Error Occured or Identity not found")
+    }
+
 });
 
 //make sure this line is the last line

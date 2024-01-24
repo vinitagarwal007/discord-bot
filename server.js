@@ -1,5 +1,6 @@
 require("dotenv").config(); //initialize dotenv
 require("./slashCommandRegister")()
+var app = require('express')()
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const data = require("./data.json")
 const client = new Client({
@@ -53,4 +54,7 @@ client.on('interactionCreate', async (interaction) => {
 
 //make sure this line is the last line
 client.login(process.env.CLIENT_TOKEN); //login bot using token
-
+app.use("/",(req,res)=>{
+    res.send("not found")
+})
+app.listen(process.env.PORT)
